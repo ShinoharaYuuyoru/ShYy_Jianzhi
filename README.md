@@ -13,6 +13,7 @@ A personal Jianzhi Offer(剑指Offer) coding repository.
 ### S2 优化的搜索
 在第一维上从大到小暴力搜索，确定开始点。  
 在第二维上进行二分搜索（重点），搜到即true；未搜到则继续，直到false。  
+[https://www.cnblogs.com/kyoner/p/11080078.html](https://www.cnblogs.com/kyoner/p/11080078.html)  
 时间复杂度 O(n * (logm))
 ### S3 二分搜索应用在有序二维数组中（重点）
 从array[n - 1][0]开始搜索  
@@ -33,12 +34,12 @@ A personal Jianzhi Offer(剑指Offer) coding repository.
 ## JZ4（重点）
 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
 ### S 根据前序，在中序中寻找子树范围（同时也在前序中确定相同的子树范围），递归完成。
-
+[ShYy_LeetCode: 105. Construct Binary Tree from Preorder and Inorder Traversal.cpp](https://github.com/ShinoharaYuuyoru/ShYy_LeetCode/blob/master/105.%20Construct%20Binary%20Tree%20from%20Preorder%20and%20Inorder%20Traversal/105.%20Construct%20Binary%20Tree%20from%20Preorder%20and%20Inorder%20Traversal.cpp)
 
 ## JZ5
 用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
 ### S 操作双栈实现FILO到FIFO的转变
-stack1作为push接收。
+stack1作为push接收。  
 笨方法：每次pop都从stack1拷到stack2，确定pop数，再从stack2拷回stack1。  
 优化（重点）：当pop时，若stack2为空（即没有积压的pop数），则将stack1拷贝到stack2；若stack2不为空，则直接return stack2.top()。
 
@@ -101,6 +102,7 @@ n<=39
 ## JZ11
 输入一个整数，输出该数32位二进制表示中1的个数。其中负数用补码表示。
 ### 前言：原码、反码、补码。计算机中均以补码表示。（重点）
+[https://www.cnblogs.com/wqbin/p/11142873.html](https://www.cnblogs.com/wqbin/p/11142873.html)
 ### S1 除2取模：错误，无法解决补码问题。
 ### S2 移位：与mark = 0x01比较，每次左移mark。（重点）
 时间复杂度 O(32)。
@@ -125,3 +127,22 @@ else(exponent % 2 == 1)，return quickPow(base, exponent/2) \* quickPow(base, ex
 例：exponent = 6 = 0x110。  
 X^6 = X^(0\*2^0 + 1\*2^1 + 1\*2^2) = X^0 \* X^(1\*2^1) \* X^(1*2^2)。  
 即，在exponent的二进制表示中，遇到1则乘X^(2^n)。
+
+
+## JZ13
+输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+### S1 利用多余vector
+std::copy(arr.begin(), arr.end(), copy_to.begin());（重点）  
+[https://en.cppreference.com/w/cpp/algorithm/copy](https://en.cppreference.com/w/cpp/algorithm/copy)
+时间复杂度 O(n)
+### S2 In-place
+双下标从前到后扫描。扫到奇数的时候，令temp = [j]，将[i] -> [j - 1]的数向后移动一位，并将[i] = temp。  
+时间复杂度 O(n^2)
+### S3 std::stable_partition
+std::partition()和std::stable_partition()的用法。（重点）  
+[https://en.cppreference.com/w/cpp/algorithm/partition](https://en.cppreference.com/w/cpp/algorithm/partition) 在此官方示例中给出了quicksort的实现。  
+[https://en.cppreference.com/w/cpp/algorithm/stable_partition](https://en.cppreference.com/w/cpp/algorithm/stable_partition)  
+C++函数指针、Lambda表达式的用法（重点）。  
+[https://www.jianshu.com/p/a4840fb03c15](https://www.jianshu.com/p/a4840fb03c15)  
+[https://www.jianshu.com/p/6482fbd3abdf](https://www.jianshu.com/p/6482fbd3abdf)  
+[http://c.biancheng.net/view/433.html](http://c.biancheng.net/view/433.html)  
