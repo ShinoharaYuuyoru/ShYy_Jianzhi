@@ -133,16 +133,61 @@ X^6 = X^(0\*2^0 + 1\*2^1 + 1\*2^2) = X^0 \* X^(1\*2^1) \* X^(1*2^2)。
 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
 ### S1 利用多余vector
 std::copy(arr.begin(), arr.end(), copy_to.begin());（重点）  
-[https://en.cppreference.com/w/cpp/algorithm/copy](https://en.cppreference.com/w/cpp/algorithm/copy)
+[std::copy, std::copy_if - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/copy)
 时间复杂度 O(n)
 ### S2 In-place
 双下标从前到后扫描。扫到奇数的时候，令temp = [j]，将[i] -> [j - 1]的数向后移动一位，并将[i] = temp。  
 时间复杂度 O(n^2)
 ### S3 std::stable_partition
 std::partition()和std::stable_partition()的用法。（重点）  
-[https://en.cppreference.com/w/cpp/algorithm/partition](https://en.cppreference.com/w/cpp/algorithm/partition) 在此官方示例中给出了quicksort的实现。  
-[https://en.cppreference.com/w/cpp/algorithm/stable_partition](https://en.cppreference.com/w/cpp/algorithm/stable_partition)  
+[std::partition - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/partition) 在此官方示例中给出了quicksort的实现。  
+[std::stable_partition - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/stable_partition)  
 C++函数指针、Lambda表达式的用法（重点）。  
 [https://www.jianshu.com/p/a4840fb03c15](https://www.jianshu.com/p/a4840fb03c15)  
 [https://www.jianshu.com/p/6482fbd3abdf](https://www.jianshu.com/p/6482fbd3abdf)  
 [http://c.biancheng.net/view/433.html](http://c.biancheng.net/view/433.html)  
+
+
+## JZ14
+输入一个链表，输出该链表中倒数第k个结点。  
+### S1 两遍扫描笨方法
+扫一次，确定链表总长度，以此确定第二次扫描的循环次数。
+### S2 双指针一次扫描（重点）
+设置前后指针，距离为(k - 1)，然后一起平移移动至后指针为nullptr为止。
+
+
+## JZ15
+输入一个链表，反转链表后，输出新链表的表头。
+### S1 Stack暂存反转
+扫描链表，利用一个stack储存，再全部pop以构建反转链表。
+### S2 三指针一次扫描（重点）
+初始：pre = nullptr，cur = pHead，rear = pHead->next。  
+扫描：直到rear == nullptr为止，令cur->next = pre，然后顺次更改pre = cur，cur = rear，rear = rear->next。  
+最终：不要忘了cur->next = pre。返回cur。
+
+
+## JZ16
+输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+### S1 最傻的办法
+依次扫描两个链表，存储所有的值，排序，再创建新链表。
+### S2 一次扫描比较法
+最朴素的办法。
+### S3 递归方法（重点）
+1. 首先，思考递归终结条件：如果任意一方为nullptr，返回另一方。  
+2. 其次，思考递归过程（范围缩小过程）：如果pHead1->val小于另一方，则进行递归：pHead1->next = Merge(pHead1->next, pHead2);。反之，反之。  
+3. 最后，我们要返回的链表头：返回小的那一方。
+
+
+## JZ17
+输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+### S1 二叉树的前中后序遍历并比较（重点）
+重点复习递归方法、非递归方法的二叉树的前中后序遍历：[ShYy_Jianzhi: JZ17. BinaryTreeTraversal.cpp](https://github.com/ShinoharaYuuyoru/ShYy_Jianzhi/blob/master/JZ17/BinaryTreeTraversal.cpp)  
+Reference: [https://www.cnblogs.com/bigsai/p/11393609.html](https://www.cnblogs.com/bigsai/p/11393609.html)  
+比较的时候，使用了std::search方法：auto result = search(tree1.begin(), tree1.end(), tree2.begin(), tree2.end());。具体见：[std::search - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/search)  
+同时可以复习std::find方法：[std::find, std::find_if, std::find_if_not - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/find)  
+### S2 递归方法（重点）
+1. 首先，思考递归终结条件：如果node1或node2为nullptr，则return false；否则进行递归。
+2. 其次，思考递归过程（范围缩小过程）：node1和node2直接进行子树比较；node1的左子树和node2比较；或node1的右子树和node2比较。
+3. 其中，子树比较过程也是一个递归过程。
+    1. 思考递归终结条件：如果node1 == nullptr，则return false；如果node2 == nullptr，则return true。
+    2. 递归过程：当前两节点node1和node2，其值应当相等，同时其左子树应当相等，同时其右子树应当相等。
