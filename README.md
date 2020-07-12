@@ -13,7 +13,7 @@ A personal Jianzhi Offer(剑指Offer) coding repository.
 ### S2 优化的搜索
 在第一维上从大到小暴力搜索，确定开始点。  
 在第二维上进行二分搜索（重点），搜到即true；未搜到则继续，直到false。  
-[https://www.cnblogs.com/kyoner/p/11080078.html](https://www.cnblogs.com/kyoner/p/11080078.html)  
+[详解二分查找算法 - murphy_gb - 博客园](https://www.cnblogs.com/kyoner/p/11080078.html)  
 时间复杂度 O(n * (logm))
 ### S3 二分搜索应用在有序二维数组中（重点）
 从array[n - 1][0]开始搜索  
@@ -102,7 +102,7 @@ n<=39
 ## JZ11
 输入一个整数，输出该数32位二进制表示中1的个数。其中负数用补码表示。
 ### 前言：原码、反码、补码。计算机中均以补码表示。（重点）
-[https://www.cnblogs.com/wqbin/p/11142873.html](https://www.cnblogs.com/wqbin/p/11142873.html)
+[原码，补码和反码 - wqbin - 博客园](https://www.cnblogs.com/wqbin/p/11142873.html)
 ### S1 除2取模：错误，无法解决补码问题。
 ### S2 移位：与mark = 0x01比较，每次左移mark。（重点）
 时间复杂度 O(32)。
@@ -143,9 +143,9 @@ std::partition()和std::stable_partition()的用法。（重点）
 [std::partition - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/partition) 在此官方示例中给出了quicksort的实现。  
 [std::stable_partition - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/stable_partition)  
 C++函数指针、Lambda表达式的用法（重点）。  
-[https://www.jianshu.com/p/a4840fb03c15](https://www.jianshu.com/p/a4840fb03c15)  
-[https://www.jianshu.com/p/6482fbd3abdf](https://www.jianshu.com/p/6482fbd3abdf)  
-[http://c.biancheng.net/view/433.html](http://c.biancheng.net/view/433.html)  
+[c++ 基础（函数指针） - 简书](https://www.jianshu.com/p/a4840fb03c15)  
+[c++基础(lambda) - 简书](https://www.jianshu.com/p/6482fbd3abdf)  
+[C++11 Lambda表达式（匿名函数）详解](http://c.biancheng.net/view/433.html)  
 
 
 ## JZ14
@@ -182,7 +182,7 @@ C++函数指针、Lambda表达式的用法（重点）。
 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
 ### S1 二叉树的前中后序遍历并比较（重点）
 重点复习递归方法、非递归方法的二叉树的前中后序遍历：[ShYy_Jianzhi: JZ17. BinaryTreeTraversal.cpp](https://github.com/ShinoharaYuuyoru/ShYy_Jianzhi/blob/master/JZ17/BinaryTreeTraversal.cpp)  
-Reference: [https://www.cnblogs.com/bigsai/p/11393609.html](https://www.cnblogs.com/bigsai/p/11393609.html)  
+Reference: [二叉树——前序遍历、中序遍历、后序遍历、层序遍历详解(递归非递归) - bigsai - 博客园](https://www.cnblogs.com/bigsai/p/11393609.html)  
 比较的时候，使用了std::search方法：auto result = search(tree1.begin(), tree1.end(), tree2.begin(), tree2.end());。具体见：[std::search - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/search)  
 同时可以复习std::find方法：[std::find, std::find_if, std::find_if_not - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/find)  
 ### S2 递归方法（重点）
