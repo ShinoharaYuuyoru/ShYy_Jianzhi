@@ -1,7 +1,7 @@
 # ShYy_Jianzhi
 A personal Jianzhi Offer(剑指Offer) coding repository.
 
-# 知识点整理及个人重点
+# 知识点+解决方案+个人重点
 所有标有**重点**的都应该重点复习！  
 直接使用CTRL+F搜索“重点”二字可快速定位。
 
