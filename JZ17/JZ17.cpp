@@ -61,11 +61,11 @@ public:
 
 private:
     bool dfs(TreeNode* r1, TreeNode* r2) {
-        if (r2 == nullptr) {
-            return true;
-        }
         if (r1 == nullptr) {
             return false;
+        }
+        if (r2 == nullptr) {
+            return true;
         }
 
         return r1->val == r2->val && dfs(r1->left, r2->left) && dfs(r1->right, r2->right);
