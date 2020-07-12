@@ -7,6 +7,7 @@ struct ListNode {
     }
 };*/
 
+
 // Easy way
 class Solution {
 public:
