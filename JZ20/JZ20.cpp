@@ -1,7 +1,6 @@
 class Solution {
 public:
-    void push(int value) {
-
+    void push(int value) 
         S.push(value);
         if (minS.empty() == true) {
             minS.push(value);
