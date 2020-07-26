@@ -1,3 +1,4 @@
+// S1: Easy way
 class Solution
 {
 public:
@@ -30,7 +31,7 @@ private:
 };
 
 
-// Optimize
+// S2: Optimize
 class Solution
 {
 public:
