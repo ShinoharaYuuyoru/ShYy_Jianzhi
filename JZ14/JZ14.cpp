@@ -8,7 +8,7 @@ struct ListNode {
 };*/
 
 
-// Easy way
+// S1: Easy way
 class Solution {
 public:
     ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
@@ -34,7 +34,7 @@ public:
 };
 
 
-// Two pointers
+// S2: Two pointers
 class Solution {
 public:
     ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
