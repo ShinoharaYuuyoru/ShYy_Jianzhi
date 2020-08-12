@@ -147,12 +147,12 @@ void inOrder2(BinTree* root)      //·ÇµÝ¹éÖÐÐò±éÀú
     BinTree* p = root;
     while (p != NULL || !s.empty())
     {
-        while (p != NULL)
+        if (p != NULL)
         {
             s.push(p);
             p = p->lchild;
         }
-        if (!s.empty())
+        else
         {
             p = s.top();
             cout << p->data << " ";
