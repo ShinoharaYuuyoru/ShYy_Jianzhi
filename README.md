@@ -347,3 +347,43 @@ Reference: [1～n 整数中 1 出现的次数 - 递归](https://leetcode-cn.com/
 ### S3: 找规律，O(logn)
 请直接查看以下Reference。  
 Reference: [1～n 整数中 1 出现的次数 - 找规律](https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/solution/mian-shi-ti-43-1n-zheng-shu-zhong-1-chu-xian-de-2/)  
+
+
+## JZ32
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+### S1: 暴力。全排列。回顾JZ27。
+### S2: 贪心。自定义排序（重点）。
+先将所有数转化为string。  
+（重点）复习：[to_string](https://en.cppreference.com/w/cpp/string/basic_string/to_string)，[stoi](https://en.cppreference.com/w/cpp/string/basic_string/stol)。  
+对于两个字符串a和b，如果a + b < b + a，则应当将a排在前边。  
+那么这将是我们对字符串的排序方法。  
+运用sort()，重写排序方法。有以下方法重写：（重点）
+1. 仿函数
+```
+struct Com {
+    bool operator() (string a, string b) {
+     return a + b < b + a;
+    }
+};
+sort(str.begin(), str.end(), Com());    // Com()为临时对象
+```
+2. lambda表达式
+```
+// 1. 匿名lambda表达式
+sort(str.begin(), str.end(), [](string a, string b) {
+     return a + b < b + a;
+});
+// 2. 非匿名lambda表达式
+auto lam = [](string a, string b) {
+     return a + b < b + a;
+ };
+sort(str.begin(), str.end(), lam);
+```
+3. 函数指针
+```
+bool static comp(const string a, const string b) {
+    return a + b < b + a;
+}
+// 加static的原因：类成员函数有隐藏的this指针,static 可以去this指针
+sort(str.begin(), str.end(), comp);
+```
