@@ -317,3 +317,33 @@ HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。今天
 最后if(temp == 0)，则数组内全是负数，遍历选取最大负数；否则直接return。  
 新STL用法：max_element(array.begin(), array.end())。  
 Reference: [std::max_element - cppreference.com](https://en.cppreference.com/w/cpp/algorithm/max_element)
+
+
+## JZ31
+求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。
+### S1: 暴力遍历。TLE。略。
+### S2: 递归（重点）
+Reference: [1～n 整数中 1 出现的次数 - 递归](https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/solution/javadi-gui-by-xujunyi/)
+将数n拆分为两部分：最高位数字high，其他位数字last。设pow = 10^high。
+1. if(high == 1)
+    1. 1 ~ (pow - 1)范围内1的个数是：f(pow - 1)
+    2. 其他部分（考虑pow ~ n）
+        1. high位1的个数为：(last + 1)
+        2. 其他位1的个数：f(last)
+    3. 因此，递推式为：f(n) = f(pow - 1) + (last + 1) + f(last)
+2. else
+将数按high的大小分为(high + 1)部分：1 ~ (pow - 1)，pow ~ (2 \* pow - 1)， ...，(high \* pow) ~ n（即last）
+    1. 1 ~ (pow - 1)：f(pow - 1)
+    2. pow ~ (2 \* pow - 1)：
+        1. 与上边类似，(last + 1) = (pow - 1) + 1 = pow
+        2. 其他位：f(last) = f(pow - 1)
+    3. 2 \* pow ~ ...：因为high位不为1，所以均为f(pow - 1)
+    4. (high \* pow) ~ n，即last：f(last)
+    5. 因此，递推式为：f(n) = f(pow - 1) + pow + f(pow - 1) + (high - 2) \* (pow - 1) + f(last)。
+即为：high \* f(pow - 1) + pow + f(last)。  
+
+以上，写出代码即可。
+
+### S3: 找规律，O(logn)
+请直接查看以下Reference。  
+Reference: [1～n 整数中 1 出现的次数 - 找规律](https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/solution/mian-shi-ti-43-1n-zheng-shu-zhong-1-chu-xian-de-2/)  
