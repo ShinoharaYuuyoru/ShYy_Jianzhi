@@ -387,3 +387,25 @@ bool static comp(const string a, const string b) {
 // 加static的原因：类成员函数有隐藏的this指针,static 可以去this指针
 sort(str.begin(), str.end(), comp);
 ```
+
+
+## JZ33
+把只包含质因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+### S: 穷举
+每一个丑数，可以分解为2^x\*3^y\*5\*z。  
+所以，从第0个丑数（1）开始，分别不断地乘2或3或5，得到最小的数放入当前位置中，并且分别记录2、3、5对应的乘数位置（并做相应的累加）。  
+核心代码如下：  
+```
+for (int i = 1; i < index; i++) {
+    result[i] = min(result[p2] * 2, min(result[p3] * 3, result[p5] * 5));
+    if (result[i] == result[p2] * 2) {
+        p2++;
+    }
+    if (result[i] == result[p3] * 3) {
+        p3++;
+    }
+    if (result[i] == result[p5] * 5) {
+        p5++;
+    }
+}
+```
