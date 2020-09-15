@@ -354,7 +354,7 @@ Reference: [1～n 整数中 1 出现的次数 - 找规律](https://leetcode-cn.c
 ### S1: 暴力。全排列。回顾JZ27。
 ### S2: 贪心。自定义排序（重点）。
 先将所有数转化为string。  
-（重点）复习：[to_string](https://en.cppreference.com/w/cpp/string/basic_string/to_string)，[stoi](https://en.cppreference.com/w/cpp/string/basic_string/stol)。  
+（重点）复习：[std::to_string](https://en.cppreference.com/w/cpp/string/basic_string/to_string)，[std::stoi](https://en.cppreference.com/w/cpp/string/basic_string/stol)。  
 对于两个字符串a和b，如果a + b < b + a，则应当将a排在前边。  
 那么这将是我们对字符串的排序方法。  
 运用sort()，重写排序方法。有以下方法重写：（重点）
@@ -409,3 +409,58 @@ for (int i = 1; i < index; i++) {
     }
 }
 ```
+
+
+## JZ34
+在一个字符串(0<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.（从0开始计数）
+### S1: 一遍搜索填表  
+略
+### S2: 优化表格为bitset（重点），但会增加时间复杂度到2n
+[std::bitset](https://en.cppreference.com/w/cpp/utility/bitset)
+
+
+## JZ35
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
+### S1: 暴力，TLE（包括查询冒泡的交换次数）
+### S2: 二路归并排序（重点）
+1. 首先，我们要搞懂（2路）归并排序。  
+与快速排序相似，归并排序也是一种分治，代码上也以分治函数为框架，内部使用归并函数进行排序归并。  
+```
+void mergeSort(vector<int>& array, int left, int right);
+void merge(vector<int>& array, int left, int mid, int right);
+```
+2. 其次，这道题为什么要用归并排序。  
+如S1提示，其实“逆序”就是把排序过程中，把大的数往后移动（交换）的次数。  
+那么在归并过程中，首先复杂度从冒泡排序的n2下降到nlogn；其次我们可以不用一个一个地去数了（即ANS++）：对于二路归并时候的两个block，设左边block当前的数已经大于右边block当前的数，又因为两个block已经是排好序的，可以得知左边block当前数到最后一个数均大于右边block当前的数，那么对于右边block当前的数，可以产生[leftEndIdx - leftNowIdx + 1]个的逆序（也就是在冒泡排序过程中发生了这么多次的交换）。这也加速了计数过程。  
+```
+while(b1Idx <= mid && b2Idx <= right){
+    // Here we will operate the counter.
+    if(array[b1Idx] > array[b2Idx]){
+        ANS += mid - b1Idx + 1;
+        ANS = ANS % 1000000007;
+        
+        temp[tempIdx] = array[b2Idx];
+        tempIdx++;
+        b2Idx++;
+    }
+    else{
+        temp[tempIdx] = array[b1Idx];
+        tempIdx++;
+        b1Idx++;
+    }
+    
+    // Original merge sort code.
+    //temp[tempIdx] = array[b1Idx] <= array[b2Idx] ? array[b1Idx] : array[b2Idx];
+    //tempIdx++;
+    //b1Idx++;
+    //b2Idx++;
+}
+```
+
+
+# JZ36
+输入两个链表，找出它们的第一个公共结点。（注意因为传入数据是链表，所以错误测试数据的提示是用其他方式显示的，保证传入数据是正确的）
+## S1: Hash
+略
+## S2: 同等长度搜索
+在p1到nullptr时置为pHead2，在p2到nullptr时置为pHead1——使两个搜索长度等长。那么两指针一定会在第一个重叠节点相遇。
