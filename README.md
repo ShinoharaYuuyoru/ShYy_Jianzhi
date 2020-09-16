@@ -464,3 +464,74 @@ while(b1Idx <= mid && b2Idx <= right){
 略
 ## S2: 同等长度搜索
 在p1到nullptr时置为pHead2，在p2到nullptr时置为pHead1——使两个搜索长度等长。那么两指针一定会在第一个重叠节点相遇。
+
+
+# JZ37
+统计一个数字在升序数组中出现的次数。
+### S: 二分查找（重点）
+[详解二分查找算法 - murphy_gb - 博客园](https://www.cnblogs.com/kyoner/p/11080078.html)  
+在此写下三种类型的核心代码
+二分查找框架：
+```
+int binarySearch(int[] nums, int target) {
+    int left = 0, right = ...;
+
+    while (...) {
+        int mid = (right + left) / 2;
+        if (nums[mid] == target) {
+            ...
+        }
+        else if (nums[mid] < target) {
+            left = ...
+        }
+        else if (nums[mid] > target) {
+            right = ...
+        }
+    }
+    return ...;
+}
+```
+关键概念：**搜索区间**的控制
+1. 寻找特定的数
+```
+right = length - 1;
+while(left <= right);
+return mid;
+left = mid + 1;
+right = mid - 1;
+```
+2. 寻找左边界
+```
+right = length;
+while(left < right);
+right = mid;        // [mid] == target
+left = mid + 1;
+right = mid;
+return array[left] == target? left : -1;
+```
+3. 寻找右边界
+```
+right = length;
+while(left < right);
+left = mid + 1;     // [mid] == target
+left = mid + 1;
+right = mid;
+return left - 1;
+if(left == 0){
+    return -1;
+}
+else{
+    return array[left - 1] == target? (left - 1) : -1;
+}
+```
+
+
+# JZ38
+输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。
+## S1: 层序遍历（重点）
+[ShYy_Jianzhi: JZ17. BinaryTreeTraversal.cpp](https://github.com/ShinoharaYuuyoru/ShYy_Jianzhi/blob/master/JZ17/BinaryTreeTraversal.cpp)  
+[二叉树——前序遍历、中序遍历、后序遍历、层序遍历详解(递归非递归) - bigsai - 博客园](https://www.cnblogs.com/bigsai/p/11393609.html)  
+## S2: 分治（重点）
+递归处理左子树和右子树，以当前节点为根节点的二叉树的深度为：max(leftVal, rightVal) + 1。有点像动态规划...
+
+
