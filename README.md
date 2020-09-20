@@ -571,3 +571,44 @@ for(int num : data){
     }
 }
 ```
+
+
+# JZ41
+小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? Good Luck!
+## S1: 暴力搜索
+略
+## S2: 打表后搜索
+从1->sum，打一个累积和表，再做搜索。因为是从1开始搜索，需要注意打表的方法和边界处理。  
+扩展（重点）：  
+截取另一个vector的片段构造新vector：vector(a.begin(), a.end());  
+或者也可以使用：[std::copy, std::copy_if](https://en.cppreference.com/w/cpp/algorithm/copy)  
+向上取整：[std::ceil, std::ceilf, std::ceill](https://en.cppreference.com/w/cpp/numeric/math/ceil)  
+向下取整：[std::floor, std::floorf, std::floorl](https://en.cppreference.com/w/cpp/numeric/math/floor)
+## S3: 滑动窗口
+当前窗口值小于sum：扩大窗口  
+当前窗口值等于sum：保存窗口  
+当前窗口值大于sum：缩小窗口  
+停止条件：窗口左边界大于sum/2
+
+
+# JZ42
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
+## S: 双指针
+略
+
+
+# JZ43
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+## S: substr()（重点）
+复习：[std::basic_string<CharT,Traits,Allocator>::substr](https://en.cppreference.com/w/cpp/string/basic_string/substr)  
+扩展：  
+substr()的源代码中是采用了额外的空间直接截取。
+
+
+# JZ44
+牛客最近来了一个新员工Fish，每天早晨总是会拿着一本英文杂志，写些句子在本子上。同事Cat对Fish写的内容颇感兴趣，有一天他向Fish借来翻看，但却读不懂它的意思。例如，“student. a am I”。后来才意识到，这家伙原来把句子单词的顺序翻转了，正确的句子应该是“I am a student.”。Cat对一一的翻转这些单词顺序可不在行，你能帮助他么？
+## S1: 手动处理
+略
+## S2: stringstream（重点）
+stringstream会以空格作为分隔符来提取单词。  
+参考：[stringstream常见用法介绍](https://blog.csdn.net/liitdar/article/details/82598039)
