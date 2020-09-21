@@ -644,3 +644,127 @@ for(int i = 1; i <= n; i++)
 }
 return s;
 ```
+
+
+# JZ47
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+## S: 使用&&来终止
+显然，我们要让循环或递归终止，有没有可以取代if条件语句的方法呢？  
+A && B，在A成立的情况下才会执行B。那么这里的A就是终止条件了。
+```
+int Sum_Solution(int n) {
+    n >= 1 && (n += Sum_Solution(n - 1));
+    
+    return n;
+}
+```
+
+
+# JZ48
+写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。
+## S: 位运算
+（重点）复习：[原码，补码和反码 - wqbin - 博客园](https://www.cnblogs.com/wqbin/p/11142873.html)  
+两数按位相加的关键就一件事：有无进位。
+1. 不带进位的加法：异或。
+2. 进位的计算：与运算，并且将结果左移一位。
+
+题解：[不用加减乘除做加法](https://blog.nowcoder.net/n/07f2bd03162d40ddaebefd666e0d71b2)  
+```
+int Add(int num1, int num2)
+{
+    int result = 0;
+    int carry = 0;
+    while(true){
+        result = num1 ^ num2;
+        carry = (num1 & num2) << 1;
+        num1 = result;
+        num2 = carry;
+        
+        if(carry == 0){
+            break;
+        }
+    }
+    
+    return result;
+}
+```
+
+
+# JZ49
+将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+## S: 注意判断int类型的范围
+题解：[《剑指Offer》把字符串转换成整数](https://blog.nowcoder.net/n/eb66593eb79a4428a72e385adcfce6dd?f=comment)  
+有以下需要注意的地方：
+1. 
+INT_MIN = -2147483648  
+INT_MAX = 2147483647  
+2. 让最前边的符号位，使用int来参与到运算中，而不是单纯地使用bool来标记。
+3. 因为每次在多处理一位的时候相当于将现在的数值x10，故可以利用INT_MIN/10和INT_MAX/10的值来提前判断。  
+4. 进一步地，我们可以合并这两个边界判断。
+设置一个overValue来表示当前值和INT_MAX/10的差。
+当value是正数时，直接相减；当value是负数时，使用上述的符号位。综合二者，可得overValue = isNegative*value - INT_MAX/10;。那么：
+    1. 当overValue > 0时，越界；
+    2. 当overValue == 0时，当isNegative == 1时，最后一位digit > 7越界；当isNegative == -1时，digit > 8越界。  
+    3. 当overValue < 0时，不越界。
+    4. 最终，可以采用更巧妙的方法：通过(isNegative + 1)/2，将-1和1转化为0和1，从而统一判断为：(isNegative + 1)/2 + digit > 8时，越界。
+
+综上，整个越界判断变为：
+```
+overValue = isNegative * value - INT_MAX / 10 + (((isNegative + 1) / 2 + digit > 8) ? 1 : 0)
+```
+即，overValue > 0，越界；overValue <= 0，不越界。  
+最终代码如下：
+```
+int StrToInt(string str) {
+    if (str.empty() == true) {
+        return 0;
+    }
+
+    int isNegative = 1;        // Set as positive number by default
+    int value = 0;
+
+    int idx = 0;
+    // If there is a symbol
+    if (str[0] == '-') {
+        isNegative = -1;
+        idx++;
+    }
+    else if (str[0] == '+') {
+        isNegative = 1;
+        idx++;
+    }
+    
+    // If there is a symbol, idx == 1; else, idx == 0
+    for (; idx < str.size(); idx++) {
+        int digit = str[idx] - '0';
+        if (digit < 0 || digit > 9) {        // Invalid input
+            return 0;
+        }
+
+        /*
+        * Optimized writing
+        */
+        int overValue = isNegative * value - INT_MAX / 10 + (((isNegative + 1) / 2 + digit > 8) ? 1 : 0);
+        if (overValue > 0) {        // Overflow
+            return 0;
+        }
+        else {        // Casual case
+            value = value * 10 + isNegative * digit;
+        }
+    }
+
+    return value;
+}
+```
+
+
+# JZ50
+在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+## S1: 哈希
+略
+## S2: In-place（重点）
+我们应该充分利用题中给出的条件：所有数都是<n的。  
+1. 设i从第0个位置开始。  
+2. 如果numbers[i] == i，那么表明numbers[i]放到了正确的位置上。i++。
+3. 如果numbers[i] != i，那么我们需要将numbers[i]放到其正确的位置上。交换numbers[i]与numbers[numbers[i]]。交换之后，若numbers[i] != i，则继续交换。
+4. 如果交换的过程中，出现numbers[i] == numbers[numbers[i]]，则说明有重复值，返回即可。
